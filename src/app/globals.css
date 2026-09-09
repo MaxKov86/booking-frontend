@@ -1,0 +1,45 @@
+@import "tailwindcss";
+@import "react-day-picker/style.css";
+
+/**
+ * Палітра свідомо ІНША, ніж у попередніх проектах портфоліо
+ * (amber/charcoal у 1-2, teal у 3) — indigo/slate, спокійна й
+ * "довірлива", що пасує booking-продукту, де користувач лишає
+ * персональні дані.
+ *
+ * Проект світлий за замовчуванням (на відміну від попередніх) —
+ * публічна сторінка бронювання має виглядати нейтрально й доступно
+ * для випадкового відвідувача, а не як "інструмент для розробника".
+ */
+@theme {
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-2: #f1f5f9;
+  --color-border: #e2e8f0;
+
+  --color-text: #0f172a;
+  --color-muted: #64748b;
+  --color-faint: #94a3b8;
+
+  --color-brand: #4f46e5;
+  --color-brand-hover: #4338ca;
+  --color-brand-soft: #eef2ff;
+  --color-on-brand: #ffffff;
+
+  --color-success: #059669;
+  --color-danger: #dc2626;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* react-day-picker: перевизначаємо його CSS-змінні під нашу палітру,
+   замість того щоб перекривати класи — бібліотека сама їх експонує */
+.rdp-root {
+  --rdp-accent-color: var(--color-brand);
+  --rdp-accent-background-color: var(--color-brand-soft);
+  --rdp-today-color: var(--color-brand);
+  --rdp-font-family: inherit;
+}
