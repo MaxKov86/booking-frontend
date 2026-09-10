@@ -42,6 +42,13 @@ export default function Home() {
           Перейти
         </button>
       </form>
+
+      <p className="mt-8 border-t border-border pt-6 text-sm text-muted">
+        Ви спеціаліст?{' '}
+        <a href="/admin" className="text-brand transition-colors hover:text-brand-hover">
+          Увійти в панель керування
+        </a>
+      </p>
     </main>
   );
 }
