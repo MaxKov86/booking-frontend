@@ -11,13 +11,25 @@ export interface WorkingHoursWindow {
   endTime: string;
 }
 
+/** Публічні дані спеціаліста — приходять разом з Availability */
+export interface SpecialistPublic {
+  _id: string;
+  name: string;
+  slug: string;
+}
+
 export interface Availability {
   _id: string;
   userId: string;
+  /** Опис послуги — опційні, старі записи можуть їх не мати */
+  serviceName?: string;
+  serviceDescription?: string;
   slotDurationMinutes: number;
   bufferMinutes: number;
   minNoticeHours: number;
   workingHours: WorkingHoursWindow[];
+  /** Додається бекендом у публічному GET — щоб не робити другий запит */
+  specialist: SpecialistPublic;
 }
 
 /** Слоти приходять з API як ISO-рядки, конвертація в Date — на рівні компонентів */

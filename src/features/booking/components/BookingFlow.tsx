@@ -75,13 +75,52 @@ export function BookingFlow({ userId }: BookingFlowProps) {
   if (confirmedBooking) {
     return (
       <div className="mx-auto max-w-md">
-        <BookingConfirmation booking={confirmedBooking} onBookAnother={handleBookAnother} />
+        <BookingConfirmation
+          booking={confirmedBooking}
+          specialistName={availability.specialist.name}
+          serviceName={availability.serviceName}
+          onBookAnother={handleBookAnother}
+        />
       </div>
     );
   }
 
   return (
-    <div className="grid gap-8 md:grid-cols-2">
+    <div className="space-y-8">
+      {/* Шапка — відповідає на питання "що я бронюю і в кого".
+          Без неї сторінка була безликим календарем без контексту */}
+      <header className="border-b border-border pb-6">
+        <h1 className="text-2xl font-semibold tracking-tight">
+          {availability.serviceName || 'Зустріч'}
+        </h1>
+
+        <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted">
+          <span>
+            з <span className="font-medium text-text">{availability.specialist.name}</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <polyline points="12 7 12 12 15 14" />
+            </svg>
+            {availability.slotDurationMinutes} хв
+          </span>
+        </div>
+
+        {availability.serviceDescription && (
+          <p className="mt-3 max-w-2xl text-sm text-muted">{availability.serviceDescription}</p>
+        )}
+      </header>
+
+      <div className="grid gap-8 md:grid-cols-2">
       <div>
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">
           1. Оберіть дату
@@ -149,6 +188,7 @@ export function BookingFlow({ userId }: BookingFlowProps) {
             </div>
           </>
         )}
+        </div>
       </div>
     </div>
   );

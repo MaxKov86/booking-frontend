@@ -4,6 +4,8 @@ import { useAuthStore } from '@/store/authStore';
 import type { Availability, Booking, WorkingHoursWindow } from '@/features/booking/types';
 
 export interface AvailabilityInput {
+  serviceName?: string;
+  serviceDescription?: string;
   slotDurationMinutes: number;
   bufferMinutes: number;
   minNoticeHours: number;

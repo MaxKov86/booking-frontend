@@ -16,6 +16,8 @@ export function AvailabilityEditor() {
   const { data: availability, isLoading } = useMyAvailability();
   const updateAvailability = useUpdateAvailability();
 
+  const [serviceName, setServiceName] = useState('');
+  const [serviceDescription, setServiceDescription] = useState('');
   const [slotDuration, setSlotDuration] = useState(30);
   const [buffer, setBuffer] = useState(0);
   const [minNotice, setMinNotice] = useState(2);
@@ -34,6 +36,8 @@ export function AvailabilityEditor() {
   const [syncedAvailability, setSyncedAvailability] = useState(availability);
   if (availability && availability !== syncedAvailability) {
     setSyncedAvailability(availability);
+    setServiceName(availability.serviceName ?? '');
+    setServiceDescription(availability.serviceDescription ?? '');
     setSlotDuration(availability.slotDurationMinutes);
     setBuffer(availability.bufferMinutes ?? 0);
     setMinNotice(availability.minNoticeHours ?? 2);
@@ -63,6 +67,10 @@ export function AvailabilityEditor() {
     setSavedMessage(false);
 
     await updateAvailability.mutateAsync({
+      // Порожні рядки перетворюємо на undefined — інакше в БД
+      // зберігались би порожні значення замість відсутності поля
+      serviceName: serviceName.trim() || undefined,
+      serviceDescription: serviceDescription.trim() || undefined,
       slotDurationMinutes: slotDuration,
       bufferMinutes: buffer,
       minNoticeHours: minNotice,
@@ -79,6 +87,44 @@ export function AvailabilityEditor() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <h3 className="mb-3 text-sm font-semibold">Що ви пропонуєте</h3>
+        <div className="space-y-3">
+          <div>
+            <label className="mb-1.5 block text-sm font-medium" htmlFor="serviceName">
+              Назва послуги
+            </label>
+            <input
+              id="serviceName"
+              type="text"
+              value={serviceName}
+              onChange={(e) => setServiceName(e.target.value)}
+              maxLength={100}
+              placeholder="Консультація"
+              className={`${inputClassName} w-full`}
+            />
+            <p className="mt-1 text-xs text-muted">
+              Клієнт побачить це як заголовок на сторінці бронювання
+            </p>
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-sm font-medium" htmlFor="serviceDescription">
+              Опис <span className="font-normal text-muted">(необов&apos;язково)</span>
+            </label>
+            <textarea
+              id="serviceDescription"
+              rows={2}
+              value={serviceDescription}
+              onChange={(e) => setServiceDescription(e.target.value)}
+              maxLength={500}
+              placeholder="Коротко про те, як проходить зустріч і до чого готуватись"
+              className={`${inputClassName} w-full resize-none`}
+            />
+          </div>
+        </div>
+      </div>
+
       <div>
         <h3 className="mb-3 text-sm font-semibold">Робочі дні та години</h3>
         <div className="space-y-2">
