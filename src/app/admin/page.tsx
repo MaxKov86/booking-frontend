@@ -5,6 +5,7 @@ import { useAuthStore } from '@/store/authStore';
 import { AuthForm } from '@/features/auth/components/AuthForm';
 import { AvailabilityEditor } from '@/features/admin/components/AvailabilityEditor';
 import { BookingsList } from '@/features/admin/components/BookingsList';
+import { PublicLinkCard } from '@/features/admin/components/PublicLinkCard';
 
 type Tab = 'bookings' | 'schedule';
 
@@ -31,8 +32,6 @@ export default function AdminPage() {
     );
   }
 
-  const publicLink = `/book/${user.id}`;
-
   return (
     <main className="mx-auto max-w-4xl px-6 py-12">
       <header className="mb-8 flex flex-wrap items-start justify-between gap-4">
@@ -49,16 +48,8 @@ export default function AdminPage() {
         </button>
       </header>
 
-      <div className="mb-8 rounded-md bg-brand-soft p-4">
-        <p className="text-sm font-medium text-brand">Ваше посилання для клієнтів</p>
-        <a
-          href={publicLink}
-          className="mt-1 block break-all text-sm text-brand underline"
-          target="_blank"
-          rel="noreferrer"
-        >
-          {publicLink}
-        </a>
+      <div className="mb-8">
+        <PublicLinkCard userId={user.id} />
       </div>
 
       <nav className="mb-6 flex gap-1 border-b border-border">
